@@ -1,0 +1,43 @@
+version: '3'
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    # command: --sql_mode=STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION --default-time-zone=Asia/Tokyo
+    command: --default-time-zone=Asia/Tokyo
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: rails
+      MYSQL_USER: at_parking
+      MYSQL_PASSWORD: mQ9oomM%PigGJL8a4
+
+  phpmyadmin:
+    platform: linux/x86_64
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "9999:80"
+    environment:
+      PMA_USER: at_parking
+      PMA_PASSWORD: mQ9oomM%PigGJL8a4
+  rails:
+    # command: bash -c "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 SKIP_DATABASE=1 bundle exec rails s -b 0.0.0.0"
+    command: sh -c "chmod +x /rails_learning/wait-for-it.sh && \
+                  /rails_learning/wait-for-it.sh db:3306 -- bundle exec rails s -b 0.0.0.0"
+    build: .
+    environment:
+      RAILS_ENV: development
+    volumes:
+      - .:/rails_learning
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
+volumes:
+  db_data:
