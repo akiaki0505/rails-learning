@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   get 'world/index'
   get 'pages/hello'
   
-  get "up" => "rails/health#show", as: :rails_health_check
+  #resources :todo
+  get '/todo', to: 'todo#index'
+  get '/todo/show', to: 'todo#show', as: 'show'
 
   resources :users, only: [:index]
 
