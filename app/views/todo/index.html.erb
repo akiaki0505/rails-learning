@@ -2,4 +2,12 @@
 
 <p><%= @ssss %></p>
 
+<ul>
+  <% @array.each do |array| %>
+    <li><%= array %></li>
+  <% end %>
+</ul>
+
+
 <%= link_to "showへ移動", show_path %>
+
