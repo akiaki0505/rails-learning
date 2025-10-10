@@ -1,0 +1,33 @@
+<h1>Todoフォーム</h1>
+
+<%= form_with model: @todo, url: confirm_todos_path, local: false, data: { turbo: false } do |f| %>
+    
+    <% if @todo.errors.any? %>
+        <div class="errors text-red-600 mb-4">
+            <h2><%= pluralize(@todo.errors.count, "error") %>があります：</h2>
+            <ul>
+                <% @todo.errors.map(&:message).each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+    
+    <div class="mb-4">
+        <%= f.label :title %>
+        <%= f.text_field :title, class: "border border-gray-300 w-full" %>
+        <% @todo.errors[:title].each do |msg| %>
+            <p class="text-red-600 text-sm mt-1"><%= msg %></p>
+        <% end %>
+    </div>
+    
+    <div class="mb-4">
+        <%= f.label :body %>
+        <%= f.text_area :body, class: "border border-gray-300 w-full" %>
+        <% @todo.errors[:body].each do |msg| %>
+            <p class="text-red-600 text-sm mt-1"><%= msg %></p>
+        <% end %>
+    </div>
+    
+    <%= f.submit "確認画面へ" %>
+<% end %>

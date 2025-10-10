@@ -1,0 +1,16 @@
+<h1>確認画面</h1>
+
+<p>タイトル: <%= @todo.title %></p>
+<p>本文: <%= @todo.body %></p>
+
+<%= form_with model: @todo, url: back_todos_path, local: true, data: { turbo: false } do |f| %>
+  <%= f.hidden_field :title %>
+  <%= f.hidden_field :body %>
+  <%= f.submit "戻る" %>
+<% end %>
+
+<%= form_with model: @todo, url: todos_path, local: true do |f| %>
+  <%= f.hidden_field :title %>
+  <%= f.hidden_field :body %>
+  <%= f.submit "送信する" %>
+<% end %>
