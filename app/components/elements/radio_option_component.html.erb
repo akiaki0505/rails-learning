@@ -1,0 +1,17 @@
+<label class="cursor-pointer flex-1 border border-gray-300 rounded-lg p-3 text-center transition-colors duration-150">
+  <input type="radio" name="<%= @name %>" value="<%= @value %>" class="sr-only" />
+  <div class="illustration mb-2">
+    <% if @icon == "1" %>
+      <%= render(Icons::FaceHeaviestIconComponent.new) %>
+    <% elsif @icon == "2" %>
+      <%= render(Icons::FaceHeavyIconComponent.new) %>
+    <% elsif @icon == "3" %>
+      <%= render(Icons::FaceNormalIconComponent.new) %>
+    <% elsif @icon == "4" %>
+      <%= render(Icons::FaceLightIconComponent.new) %>
+    <% elsif @icon == "5" %>
+      <%= render(Icons::FaceLightestIconComponent.new) %>
+    <% end %>
+  </div>
+  <div class="text-xs"><%= @label %></div>
+</label>
