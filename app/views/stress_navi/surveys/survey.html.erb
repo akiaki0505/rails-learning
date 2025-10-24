@@ -10,24 +10,89 @@
             <p class="text-sm text-gray-500">直感で一つ選んでください</p>
             <div class="mt-3 flex flex-col sm:flex-row gap-3">
                 
-                <%= render(Elements::RadioOptionComponent.new(name: "q1", value: "1", label: "とても重い", icon: "1")) %>
+                <%= render(Elements::RadioOptionComponent.new(name: "q1", value: "1", label: "とても重い", icon: "heaviest")) %>
 
-                <%= render(Elements::RadioOptionComponent.new(name: "q2", value: "2", label: "やや重い", icon: "2")) %>
+                <%= render(Elements::RadioOptionComponent.new(name: "q1", value: "2", label: "やや重い", icon: "heavy")) %>
                 
-                <%= render(Elements::RadioOptionComponent.new(name: "q3", value: "3", label: "普通", icon: "3")) %>
+                <%= render(Elements::RadioOptionComponent.new(name: "q1", value: "3", label: "普通", icon: "normal")) %>
 
-                <%= render(Elements::RadioOptionComponent.new(name: "q4", value: "4", label: "やや軽い", icon: "4")) %>
+                <%= render(Elements::RadioOptionComponent.new(name: "q1", value: "4", label: "やや軽い", icon: "light")) %>
                 
-                <%= render(Elements::RadioOptionComponent.new(name: "q5", value: "5", label: "とても軽い", icon: "5")) %>
+                <%= render(Elements::RadioOptionComponent.new(name: "q1", value: "5", label: "とても軽い", icon: "lightest")) %>
+            </div>
+        </section>
+
+        <section class="question" data-q="2">
+            <h2 class="font-medium">2. 最近、仕事や日常生活でイライラすることが増えましたか？</h2>
+            <p class="text-sm text-gray-500">直感で一つ選んでください</p>
+            <div class="mt-3 flex flex-col sm:flex-row gap-3">
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q2", value: "1", label: "ほとんどいつもある", icon: "heaviest")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(name: "q2", value: "2", label: "よくある", icon: "heavy")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q2", value: "3", label: "ときどきある", icon: "normal")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(name: "q2", value: "4", label: "あまりない", icon: "light")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q2", value: "5", label: "まったくない", icon: "lightest")) %>
+            </div>
+        </section>
+
+        <section class="question" data-q="3">
+            <h2 class="font-medium">3. 朝起きたときに「だるい」「疲れが取れていない」と感じますか？</h2>
+            <p class="text-sm text-gray-500">直感で一つ選んでください</p>
+            <div class="mt-3 flex flex-col sm:flex-row gap-3">
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q3", value: "1", label: "ほとんどいつもある", icon: "heaviest")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(name: "q3", value: "2", label: "よくある", icon: "heavy")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q3", value: "3", label: "ときどきある", icon: "normal")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(name: "q3", value: "4", label: "あまりない", icon: "light")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q3", value: "5", label: "まったくない", icon: "lightest")) %>
+            </div>
+        </section>
+
+        <section class="question" data-q="4">
+            <h2 class="font-medium">4. 集中力が続かない、または物事に興味が持てなくなることがありますか？</h2>
+            <p class="text-sm text-gray-500">直感で一つ選んでください</p>
+            <div class="mt-3 flex flex-col sm:flex-row gap-3">
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q4", value: "1", label: "ほとんどいつもある", icon: "heaviest")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(name: "q4", value: "2", label: "よくある", icon: "heavy")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q4", value: "3", label: "ときどきある", icon: "normal")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(name: "q4", value: "4", label: "あまりない", icon: "light")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q4", value: "5", label: "まったくない", icon: "lightest")) %>
+            </div>
+        </section>
+
+        <section class="question" data-q="5">
+            <h2 class="font-medium">5. 最近、自分に自信が持てない、または気分が落ち込みやすいと感じますか？</h2>
+            <p class="text-sm text-gray-500">直感で一つ選んでください</p>
+            <div class="mt-3 flex flex-col sm:flex-row gap-3">
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q5", value: "1", label: "ほとんどいつもある", icon: "heaviest")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(name: "q5", value: "2", label: "よくある", icon: "heavy")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q5", value: "3", label: "ときどきある", icon: "normal")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(name: "q5", value: "4", label: "あまりない", icon: "light")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(name: "q5", value: "5", label: "まったくない", icon: "lightest")) %>
             </div>
         </section>
         
-        <div class="pt-4 border-t flex items-center justify-between">
-            <div class="text-sm text-gray-500">
-                ※ 回答は管理部へはリスク度のみ通知され、詳細は本人のみ閲覧できます。
-            </div>
+        <div class="pt-4 border-t">
             <div>
-                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">送信する</button>
+                <button type="submit" class="w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">送信</button>
             </div>
         </div>
     </form>

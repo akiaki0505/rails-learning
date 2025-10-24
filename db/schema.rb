@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_07_025442) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_24_022211) do
+  create_table "surveys", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "q1", null: false
+    t.integer "q2", null: false
+    t.integer "q3", null: false
+    t.integer "q4", null: false
+    t.integer "q5", null: false
+    t.integer "total_score"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_surveys_on_user_id"
+  end
+
   create_table "todos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.text "body"
