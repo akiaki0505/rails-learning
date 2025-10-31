@@ -1,0 +1,116 @@
+<div class="w-full max-w-3xl bg-white rounded-2xl shadow-md p-6">
+    <header class="mb-6">
+        <h1 class="text-2xl font-semibold">ストレスナビ - 週次ストレスチェック</h1>
+        <p class="text-sm text-gray-500 mt-1">所要時間：1分程度。直感でイラストを選んでください。</p>
+    </header>
+    
+    <%= form_with model: @survey, url: stress_navi_surveys_path, local: false, class: "space-y-6", data: { turbo: false } do |f|%>
+        <section class="question" data-q="1">
+            <h2 class="font-medium">1. 今週の仕事の負担感はどうでしたか？</h2>
+            <p class="text-sm text-gray-500">直感で一つ選んでください</p>
+            <div class="mt-3 flex flex-col sm:flex-row gap-3">
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q1, value: "1", label: "とても重い", icon: "heaviest")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q1, value: "2", label: "やや重い", icon: "heavy")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q1, value: "3", label: "普通", icon: "normal")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q1, value: "4", label: "やや軽い", icon: "light")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q1, value: "5", label: "とても軽い", icon: "lightest")) %>
+            </div>
+        </section>
+
+        <section class="question" data-q="2">
+            <h2 class="font-medium">2. 最近、仕事や日常生活でイライラすることが増えましたか？</h2>
+            <p class="text-sm text-gray-500">直感で一つ選んでください</p>
+            <div class="mt-3 flex flex-col sm:flex-row gap-3">
+
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q2, value: "1", label: "とても重い", icon: "heaviest")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q2, value: "2", label: "やや重い", icon: "heavy")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q2, value: "3", label: "普通", icon: "normal")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q2, value: "4", label: "やや軽い", icon: "light")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q2, value: "5", label: "とても軽い", icon: "lightest")) %>
+            </div>
+        </section>
+
+        <section class="question" data-q="3">
+            <h2 class="font-medium">3. 朝起きたときに「だるい」「疲れが取れていない」と感じますか？</h2>
+            <p class="text-sm text-gray-500">直感で一つ選んでください</p>
+            <div class="mt-3 flex flex-col sm:flex-row gap-3">
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q3, value: "1", label: "とても重い", icon: "heaviest")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q3, value: "2", label: "やや重い", icon: "heavy")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q3, value: "3", label: "普通", icon: "normal")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q3, value: "4", label: "やや軽い", icon: "light")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q3, value: "5", label: "とても軽い", icon: "lightest")) %>
+            </div>
+        </section>
+
+        <section class="question" data-q="4">
+            <h2 class="font-medium">4. 集中力が続かない、または物事に興味が持てなくなることがありますか？</h2>
+            <p class="text-sm text-gray-500">直感で一つ選んでください</p>
+            <div class="mt-3 flex flex-col sm:flex-row gap-3">
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q4, value: "1", label: "とても重い", icon: "heaviest")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q4, value: "2", label: "やや重い", icon: "heavy")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q4, value: "3", label: "普通", icon: "normal")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q4, value: "4", label: "やや軽い", icon: "light")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q4, value: "5", label: "とても軽い", icon: "lightest")) %>
+            </div>
+        </section>
+
+        <section class="question" data-q="5">
+            <h2 class="font-medium">5. 最近、自分に自信が持てない、または気分が落ち込みやすいと感じますか？</h2>
+            <p class="text-sm text-gray-500">直感で一つ選んでください</p>
+            <div class="mt-3 flex flex-col sm:flex-row gap-3">
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q5, value: "1", label: "とても重い", icon: "heaviest")) %>
+
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q5, value: "2", label: "やや重い", icon: "heavy")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q5, value: "3", label: "普通", icon: "normal")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q5, value: "4", label: "やや軽い", icon: "light")) %>
+                
+                <%= render(Elements::RadioOptionComponent.new(form: f, attribute: :q5, value: "5", label: "とても軽い", icon: "lightest")) %>
+            </div>
+        </section>
+        
+        <div class="pt-4 border-t">
+            <div>
+                <%= f.submit "送信", class: "w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700" %>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+<script>
+// ラジオ選択時の色変更
+document.querySelectorAll('input[type=radio]').forEach(input => {
+    input.addEventListener('change', () => {
+        const name = input.name;
+        document.querySelectorAll('input[name="'+name+'"]').forEach(r => {
+            const label = r.closest('label');
+            if(r.checked){
+                label.classList.add('bg-indigo-100','border-indigo-500');
+            } else {
+                label.classList.remove('bg-indigo-100','border-indigo-500');
+            }
+        });
+    });
+});
+</script>

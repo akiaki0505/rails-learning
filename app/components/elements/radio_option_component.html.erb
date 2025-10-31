@@ -1,17 +1,18 @@
 <label class="cursor-pointer flex-1 border border-gray-300 rounded-lg p-3 text-center transition-colors duration-150">
-    <input type="radio" name="<%= @name %>" value="<%= @value %>" class="sr-only" />
+    <%= @form.radio_button @attribute, @value, class: "sr-only" %>
     <div class="illustration mb-2">
-        <% if @icon == "heaviest" %>
-        <%= render(Icons::FaceHeaviestIconComponent.new) %>
-        <% elsif @icon == "heavy" %>
-        <%= render(Icons::FaceHeavyIconComponent.new) %>
-        <% elsif @icon == "normal" %>
-        <%= render(Icons::FaceNormalIconComponent.new) %>
-        <% elsif @icon == "light" %>
-        <%= render(Icons::FaceLightIconComponent.new) %>
-        <% elsif @icon == "lightest" %>
-        <%= render(Icons::FaceLightestIconComponent.new) %>
-        <% end %>
-    </div>
+    <% case @icon %>
+    <% when "heaviest" %>
+      <%= render(Icons::FaceHeaviestIconComponent.new) %>
+    <% when "heavy" %>
+      <%= render(Icons::FaceHeavyIconComponent.new) %>
+    <% when "normal" %>
+      <%= render(Icons::FaceNormalIconComponent.new) %>
+    <% when "light" %>
+      <%= render(Icons::FaceLightIconComponent.new) %>
+    <% when "lightest" %>
+      <%= render(Icons::FaceLightestIconComponent.new) %>
+    <% end %>
+  </div>
     <div class="text-xs"><%= @label %></div>
 </label>

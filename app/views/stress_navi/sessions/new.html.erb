@@ -1,0 +1,17 @@
+<h1>ログイン</h1>
+
+<%= form_with url: stress_navi_login_path, method: :post, local: true do |f| %>
+  <div>
+    <%= label_tag :email, "メールアドレス" %>
+    <%= text_field_tag :email %>
+  </div>
+
+  <div>
+    <%= label_tag :password, "パスワード" %>
+    <%= password_field_tag :password %>
+  </div>
+
+  <div>
+    <%= submit_tag "ログイン" %>
+  </div>
+<% end %>

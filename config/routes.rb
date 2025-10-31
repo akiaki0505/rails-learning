@@ -16,8 +16,23 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/stressNavi/survey', to: 'stress_navi/surveys#survey', as: 'survey'
+  #get '/stressNavi/survey', to: 'stress_navi/surveys#survey', as: 'survey'
+  #get '/stressNavi/survey', to: 'stress_navi/surveys#new', as: 'new'
+  #get '/stressNavi/survey/complete', to: 'stress_navi/surveys#complete', as: 'complete'
 
-  resources :users, only: [:index]
+  namespace :stress_navi do
+    resources :surveys, only: [:new, :create] do
+      collection do
+        get :new, path: ""
+        get :complete
+      end
+    end
+    resources :users, only: [:new, :create]
+    get "login", to: "sessions#new"
+    post "login", to: "sessions#create"
+    delete "logout", to: "sessions#destroy"
+  end
+
+  #resources :users, only: [:index]
 
 end
