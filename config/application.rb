@@ -17,6 +17,12 @@ module RailsLearning
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w(assets tasks))
 
+    # アプリケーションの時刻を日本時間 (Tokyo) に設定
+    config.time_zone = 'Tokyo'
+
+    # データベースへの保存も日本時間にする設定
+    config.active_record.default_timezone = :local
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

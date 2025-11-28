@@ -7,19 +7,21 @@ Rails.application.routes.draw do
   #get '/todo', to: 'todo#index'
   #post '/todo/show', to: 'todo#show', as: 'show'
   #post '/todo/show', to: 'todo#show_post', as: 'show_post'
-  root "todos#new"
-  resources :todos, only: [:new, :create] do
-    collection do
-      post 'confirm'
-      post 'back'
-      get 'complete'
-    end
-  end
+  
+  # root "todos#new"
+  # resources :todos, only: [:new, :create] do
+  #   collection do
+  #     post 'confirm'
+  #     post 'back'
+  #     get 'complete'
+  #   end
+  # end
 
   #get '/stressNavi/survey', to: 'stress_navi/surveys#survey', as: 'survey'
   #get '/stressNavi/survey', to: 'stress_navi/surveys#new', as: 'new'
   #get '/stressNavi/survey/complete', to: 'stress_navi/surveys#complete', as: 'complete'
 
+  root "stress_navi/sessions#new"
   namespace :stress_navi do
     resources :surveys, only: [:new, :create] do
       collection do
@@ -27,10 +29,16 @@ Rails.application.routes.draw do
         get :complete
       end
     end
-    resources :users, only: [:new, :create]
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
     delete "logout", to: "sessions#destroy"
+
+    get "dashboard", to: "dashboard#dashboard"
+    get "user/list", to: "users#index"
+    get "user/destroy", to: "users#destroy"
+
+    resources :users, only: [:new, :create, :destroy] do
+    end
   end
 
   #resources :users, only: [:index]
