@@ -12,3 +12,6 @@ application.register("flash", FlashController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import RadioSelectionController from "./radio_selection_controller"
+application.register("radio-selection", RadioSelectionController)

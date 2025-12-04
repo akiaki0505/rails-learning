@@ -11,6 +11,7 @@ module StressNavi
       user = User.find_by(email: params[:email])
       if user&.authenticate(params[:password])
         session[:user_id] = user.id
+        session[:last_active_at] = Time.current
         redirect_to stress_navi_dashboard_path
       else
         flash.now[:alert] = "Incorrect email or password."

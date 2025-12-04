@@ -23,12 +23,13 @@ Rails.application.routes.draw do
 
   root "stress_navi/sessions#new"
   namespace :stress_navi do
-    resources :surveys, only: [:new, :create] do
-      collection do
-        get :new, path: ""
-        get :complete
-      end
+    resources :surveys, only: [:create] do
+    collection do
+      get :complete
+      get ":user_id", to: "surveys#new", as: :new_with_user, constraints: { user_id: /\d+/ }
+      get "/", to: "surveys#new", as: :new
     end
+  end
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
     delete "logout", to: "sessions#destroy"
@@ -37,7 +38,7 @@ Rails.application.routes.draw do
     get "user/list", to: "users#index"
     get "user/destroy", to: "users#destroy"
 
-    resources :users, only: [:new, :create, :destroy] do
+    resources :users, only: [:show, :new, :create, :edit, :update, :destroy] do
     end
   end
 

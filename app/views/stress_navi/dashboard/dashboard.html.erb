@@ -1,24 +1,93 @@
 <% content_for(:title, 'Dashboard') %>
-<main class="flex-1 overflow-y-auto p-6 md:p-8 bg-gray-100">
+
+<main class="flex-1 overflow-y-auto p-6 md:p-8 bg-gray-50">
     <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 class="text-gray-500 text-sm font-medium mb-2">Total Users</h3>
             <p class="text-3xl font-bold text-gray-800"><%= @user_count %></p>
         </div>
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 class="text-gray-500 text-sm font-medium mb-2">Weekly Stress Checks</h3>
-            <p class="text-3xl font-bold text-sky-600">892</p>
+            <div class="flex items-baseline">
+                <h3 class="text-3xl font-bold text-sky-600 mr-2">
+                    <%= @weekly_survey_count %>
+                </h3>
+                <span class="text-gray-400 font-medium">
+                    / <%= @user_count %>
+                </span>
+            </div>
         </div>
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 class="text-gray-500 text-sm font-medium mb-2">Alerts</h3>
-            <p class="text-3xl font-bold text-red-500">15</p>
+            <div class="flex items-baseline">
+                <h3 class="text-3xl font-bold text-red-500 mr-2">
+                    <%= @alert_count %>
+                </h3>
+                <span class="text-gray-400 font-medium">
+                    / <%= @weekly_survey_count %>
+                </span>
+            </div>
         </div>
     </div>
 
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-96">
-        <h2 class="text-lg font-bold text-gray-800 mb-4">最近のアクティビティ</h2>
-        <p class="text-gray-600">ここにコンテンツが入ります...</p>
+    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+        <span class="mr-2 text-sky-500">
+            <%= weather_icon_svg(:partly_cloudy) %>
+        </span>
+        Organization Weather Map
+    </h2>
+    
+    <% if @headquarters.present? %>
+    <div class="space-y-6">
+        <% @headquarters.each do |hq| %>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="bg-gray-50 px-6 py-3 border-b border-gray-100 flex justify-between items-center">
+                <h3 class="font-bold text-gray-700"><%= hq.name %></h3>
+                <span class="text-xs text-gray-500 bg-white px-2 py-1 rounded border">
+                    <%= hq.departments.size %> Departments
+                </span>
+            </div>
+            
+            <div class="p-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    
+                    <% hq.departments.each do |dept| %>
+                    <% 
+                        current_score = dept.average_score
+                        weather_type = score_to_weather_type(current_score)
+                        style = weather_styles(weather_type)
+                    %>
+                    
+                    <div class="<%= style[:bg] %> border rounded-lg p-4 flex flex-col items-center justify-center transition hover:shadow-md cursor-pointer group relative">
+                        <div class="<%= style[:text] %> mb-2 group-hover:scale-110 transition-transform duration-200">
+                            <%= weather_icon_svg(weather_type) %>
+                        </div>
+                        
+                        <h4 class="font-bold text-gray-700 text-sm text-center mb-1">
+                            <%= dept.name %>
+                        </h4>
+                        
+                        <span class="<%= style[:text] %> text-xs font-semibold px-2 py-0.5 rounded-full bg-white bg-opacity-60">
+                            <%= style[:label] %>
+                        </span>
+                        
+                        <span class="absolute top-2 right-2 text-xs text-gray-400 font-mono">
+                            <%= dept.users.size %>
+                        </span>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+        <% end %>
     </div>
+    
+    <% else %>
+      <div class="text-center py-10 bg-white rounded-xl border border-dashed border-gray-300">
+        <p class="text-gray-400">No organization data found.</p>
+      </div>
+    <% end %>
+
 </main>
