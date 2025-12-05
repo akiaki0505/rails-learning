@@ -10,6 +10,9 @@ application.register("delete-modal", DeleteModalController)
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
+import HeadquartersController from "./headquarters_controller"
+application.register("headquarters", HeadquartersController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

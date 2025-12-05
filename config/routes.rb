@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
+  end
+  post "/graphql", to: "graphql#execute"
   #root "pages#home"
   #get 'world/index'
   #get 'pages/hello'
@@ -24,22 +28,28 @@ Rails.application.routes.draw do
   root "stress_navi/sessions#new"
   namespace :stress_navi do
     resources :surveys, only: [:create] do
-    collection do
-      get :complete
-      get ":user_id", to: "surveys#new", as: :new_with_user, constraints: { user_id: /\d+/ }
-      get "/", to: "surveys#new", as: :new
+      collection do
+        get :complete
+        get ":user_id", to: "surveys#new", as: :new_with_user, constraints: { user_id: /\d+/ }
+        get "/", to: "surveys#new", as: :new
+      end
     end
-  end
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
     delete "logout", to: "sessions#destroy"
 
     get "dashboard", to: "dashboard#dashboard"
-    get "user/list", to: "users#index"
-    get "user/destroy", to: "users#destroy"
 
-    resources :users, only: [:show, :new, :create, :edit, :update, :destroy] do
-    end
+    resources :users
+
+    #get "user/list", to: "users#index"
+    #get "user/destroy", to: "users#destroy"
+    #機能を絞り対時に使う
+    #resources :users, only: [:show, :new, :create, :edit, :update, :destroy] do
+    #end
+
+    #get "headquarter/list", to: "headquarter#index"
+    resources :headquarters, only: [:index, :new]
   end
 
   #resources :users, only: [:index]

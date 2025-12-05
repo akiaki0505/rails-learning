@@ -1,0 +1,53 @@
+<% content_for(:title, 'Headquater List') %>
+<main class="flex-1 overflow-y-auto p-6 md:p-8 bg-gray-100" data-controller="headquarters">
+
+    <% if flash[:notice] %>
+    <div data-controller="flash" class="fixed top-0 left-0 w-full z-50 flex justify-center pointer-events-none transition-all duration-500 ease-out transform -translate-y-full opacity-0">
+        <div class="mt-6 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center pointer-events-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="font-medium"><%= flash[:notice] %></span>
+        </div>
+     </div>
+    <% end %>
+
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Headquater List</h1>
+
+    <div class="container mx-auto">
+
+        <div class="flex justify-end mb-6">
+            <%= link_to new_stress_navi_headquarter_path, class: "bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium py-2 px-4 rounded-lg shadow transition-colors flex items-center" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Add Headquater
+            <% end %>
+        </div>
+
+        <div data-headquarters-target="list" class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div data-headquarters-target="loading" class="col-span-full text-center py-10 text-gray-500 animate-pulse">
+                Loading data...
+            </div>
+        </div>
+
+        <template data-headquarters-target="template">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="js-code text-xs text-gray-400 font-mono mb-1"></p>
+                        <h3 class="js-name text-lg font-bold text-gray-800"></h3>
+                    </div>
+                    
+                    <button class="text-gray-400 hover:text-sky-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </template>
+
+    </div>
+
+</main>

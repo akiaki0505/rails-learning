@@ -53,7 +53,7 @@ module StressNavi
       @user = User.find(params[:id])
       
       if @user.update(user_params)
-        redirect_to stress_navi_user_list_path, notice: "User updated successfully."
+        redirect_to stress_navi_users_path, notice: "User updated successfully."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -62,7 +62,7 @@ module StressNavi
     def destroy
       user = User.find(params[:id]).destroy
       
-      redirect_to stress_navi_user_list_path, notice: "User deleted successfully."
+      redirect_to stress_navi_users_path, notice: "User deleted successfully."
     end
 
     private

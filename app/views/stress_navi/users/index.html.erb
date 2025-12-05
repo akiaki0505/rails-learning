@@ -18,7 +18,7 @@
 
         <div class="w-full bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-4">
             <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Search Filters</h2>
-            <%= form_with url: stress_navi_user_list_path, method: :get, local: true, class: "flex flex-col md:flex-row items-end gap-4" do |f| %>
+            <%= form_with url: stress_navi_users_path, method: :get, local: true, class: "flex flex-col md:flex-row items-end gap-4" do |f| %>
                 
                 <div class="w-full md:w-64">
                     <%= f.text_field :name, 

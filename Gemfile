@@ -69,3 +69,6 @@ end
 gem "tailwindcss-rails", "~> 4.3"
 
 gem "view_component", "~> 4.0"
+
+gem 'graphql'
+gem 'graphiql-rails'

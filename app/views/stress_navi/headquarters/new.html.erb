@@ -1,0 +1,91 @@
+<% content_for(:title, 'Add New Headquater') %>
+
+<main class="flex-1 overflow-y-auto p-6 md:p-8 bg-gray-100 relative">
+
+    <% if flash[:notice] %>
+    <div data-controller="flash" class="fixed top-0 left-0 w-full z-50 flex justify-center pointer-events-none transition-all duration-500 ease-out transform -translate-y-full opacity-0">
+        <div class="mt-6 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center pointer-events-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="font-medium"><%= flash[:notice] %></span>
+        </div>
+     </div>
+    <% end %>
+
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Headquater Create</h1>
+    <p class="text-sm text-gray-500 mb-5">Create a new headquater.</p>
+    
+    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200" data-controller="headquarter-form">
+        <form data-action="submit->headquarter-form#submit"> 
+            <div data-headquarter-form-target="error" class="mb-4 text-sm text-red-600 font-bold"></div>
+            
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                    Headquarter Name <span class="text-red-500">*</span>
+                </label>
+                <input 
+                    class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" 
+                    id="name" 
+                    type="text" 
+                    placeholder="Development headquarters" data-headquarter-form-target="name" 
+                    required>
+            </div>
+            
+            <div class="mb-8">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="code">
+                    Code
+                </label>
+                <input 
+                    class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" 
+                    id="code" 
+                    type="text" 
+                    placeholder="DEV" 
+                    data-headquarter-form-target="code">
+                <p class="text-xs text-gray-400 mt-1">Optional code for system integration.</p>
+            </div>
+            
+            <div class="flex items-center justify-end">
+                <button class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out" type="submit">
+                    Create Headquarter
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div id="confirmation-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="document.getElementById('confirmation-modal').classList.add('hidden')"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-sky-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-sky-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Confirm Registration</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">
+                                    Are you sure you want to create this user? Please review the information before proceeding.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="submit" form="user-form" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-600 text-base font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Register
+                    </button>
+                    <button type="button" onclick="document.getElementById('confirmation-modal').classList.add('hidden')" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
