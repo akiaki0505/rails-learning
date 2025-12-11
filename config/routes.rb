@@ -49,7 +49,10 @@ Rails.application.routes.draw do
     #end
 
     #get "headquarter/list", to: "headquarter#index"
-    resources :headquarters, only: [:index, :new]
+    resources :headquarters, only: [:index, :new, :edit]
+
+    get 'reports', to: 'reports#index'
+    post 'reports/analyze', to: 'reports#analyze'
   end
 
   #resources :users, only: [:index]

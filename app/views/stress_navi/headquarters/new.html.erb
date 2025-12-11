@@ -1,35 +1,23 @@
-<% content_for(:title, 'Add New Headquater') %>
+<% content_for(:title, 'Add New Headquarter') %>
 
 <main class="flex-1 overflow-y-auto p-6 md:p-8 bg-gray-100 relative">
 
-    <% if flash[:notice] %>
-    <div data-controller="flash" class="fixed top-0 left-0 w-full z-50 flex justify-center pointer-events-none transition-all duration-500 ease-out transform -translate-y-full opacity-0">
-        <div class="mt-6 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center pointer-events-auto">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span class="font-medium"><%= flash[:notice] %></span>
-        </div>
-     </div>
-    <% end %>
-
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Headquater Create</h1>
-    <p class="text-sm text-gray-500 mb-5">Create a new headquater.</p>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Headquarter Create</h1>
+    <p class="text-sm text-gray-500 mb-5">Create a new headquarter.</p>
     
-    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200" data-controller="headquarter-form">
-        <form data-action="submit->headquarter-form#submit"> 
-            <div data-headquarter-form-target="error" class="mb-4 text-sm text-red-600 font-bold"></div>
+    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200" data-controller="headquarter-create">
+        <form id="headquarter-form" data-action="submit->headquarter-create#submit"> 
+            <div data-headquarter-create-target="error" class="mb-4 text-sm text-red-600 font-bold"></div>
             
             <div class="mb-6">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                    Headquarter Name <span class="text-red-500">*</span>
+                    Headquarter Name
                 </label>
                 <input 
                     class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" 
                     id="name" 
                     type="text" 
-                    placeholder="Development headquarters" data-headquarter-form-target="name" 
-                    required>
+                    placeholder="Development headquarters" data-headquarter-create-target="name">
             </div>
             
             <div class="mb-8">
@@ -41,13 +29,15 @@
                     id="code" 
                     type="text" 
                     placeholder="DEV" 
-                    data-headquarter-form-target="code">
+                    data-headquarter-create-target="code">
                 <p class="text-xs text-gray-400 mt-1">Optional code for system integration.</p>
             </div>
             
             <div class="flex items-center justify-end">
-                <button class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out" type="submit">
-                    Create Headquarter
+                <button type="button" 
+                    onclick="document.getElementById('confirmation-modal').classList.remove('hidden')"
+                    class="bg-sky-600 hover:bg-sky-700 text-white font-medium py-2 px-6 rounded-lg shadow-sm hover:shadow transition-all duration-200 cursor-pointer">
+                        Create Headquarter
                 </button>
             </div>
         </form>
@@ -71,14 +61,14 @@
                             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Confirm Registration</h3>
                             <div class="mt-2">
                                 <p class="text-sm text-gray-500">
-                                    Are you sure you want to create this user? Please review the information before proceeding.
+                                    Are you sure you want to create this Headquarter? Please review the information before proceeding.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="submit" form="user-form" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-600 text-base font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm">
+                    <button type="submit" form="headquarter-form" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-600 text-base font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm">
                         Register
                     </button>
                     <button type="button" onclick="document.getElementById('confirmation-modal').classList.add('hidden')" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">

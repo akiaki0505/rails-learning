@@ -18,8 +18,8 @@ module Types
     end
     # ---
 
-    # ▼ 修正後: resolver: を指定して丸投げする！
     field :headquarters, resolver: Resolvers::HeadquartersResolver
+    field :headquarter, resolver: Resolvers::HeadquarterResolver
     field :departments, resolver: Resolvers::DepartmentsResolver
 
   end

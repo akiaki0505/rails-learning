@@ -1,0 +1,82 @@
+<% content_for(:title, 'AI Analysis Report') %>
+
+<main class="flex-1 overflow-y-auto p-6 bg-gray-100" data-controller="report">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">AI Organization Analysis</h1>
+    
+    <div class="flex flex-col lg:flex-row gap-6 h-[calc(100vh-150px)]">
+        <div class="w-full lg:w-1/3 bg-white p-6 rounded-xl shadow-sm border border-gray-200 overflow-y-auto">
+            <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Select Organization</h2>
+            
+            <div class="space-y-4">
+                <% @headquarters.each do |hq| %>
+                <div class="border-l-2 border-gray-200 pl-4">
+                    <button 
+                        data-action="click->report#analyze" 
+                        data-name="<%= hq.name %>"
+                        class="text-left w-full hover:bg-sky-50 p-2 rounded transition flex items-center group">
+                        <span class="font-bold text-gray-700 group-hover:text-sky-700">
+                            <%= hq.name %>
+                        </span>
+                    </button>
+                    
+                    <div class="ml-4 mt-2 space-y-1">
+                        <% hq.departments.each do |dept| %>
+                        <button 
+                            data-action="click->report#analyze" 
+                            data-name="<%= dept.name %>"
+                            class="text-left w-full text-sm text-gray-600 hover:text-sky-600 hover:bg-sky-50 p-1.5 rounded transition flex items-center">
+                            <span class="w-2 h-0.5 bg-gray-300 mr-2"></span>
+                            <%= dept.name %>
+                        </button>
+                        <% end %>
+                    </div>
+                </div>
+                <% end %>
+            </div>
+        </div>
+        
+        <div class="w-full lg:w-2/3 bg-white p-8 rounded-xl shadow-sm border border-gray-200 relative overflow-y-auto">
+            
+            <div data-report-target="loading" class="absolute inset-0 flex flex-col items-center justify-center bg-white/90 z-10 transition-opacity hidden">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600 mb-4"></div>
+                <p class="text-sky-600 font-bold animate-pulse">
+                    Gemini AI is analyzing...
+                </p>
+            </div>
+            
+            <div data-report-target="resultArea" class="hidden">
+                <div class="border-b border-gray-100 pb-4 mb-6">
+                    <h2 data-report-target="title" class="text-2xl font-bold text-gray-800 mb-2"></h2>
+                    <div data-report-target="score" class="text-xl font-bold text-gray-600"></div>
+                </div>
+                
+                <div class="prose max-w-none">
+                    <div class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r">
+                        <div class="flex items-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            <span class="font-bold text-sky-700">AI Consultant Insight</span>
+                        </div>
+                        <p data-report-target="content" class="text-gray-700 whitespace-pre-wrap leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="initial-guide" class="h-full flex flex-col items-center justify-center text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" />
+                </svg>
+                <p>Select an organization from the left to start analysis.</p>
+            </div>
+            
+        </div>
+    </div>
+</main>
+
+<style>
+  /* 結果が表示されたら初期ガイドを消すための簡易CSS */
+  [data-report-target="resultArea"]:not(.hidden) ~ #initial-guide {
+    display: none;
+  }
+</style>

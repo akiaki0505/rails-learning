@@ -1,18 +1,25 @@
 module Mutations
   class UpdateHeadquarter < BaseMutation
-    # 1. 受け取る引数 (input)
+    
     argument :id, ID, required: true
     argument :name, String, required: true
+    
+    argument :code, String, required: false
 
-    # 2. 返り値 (output)
+    
     field :headquarter, Types::Objects::HeadquarterType, null: true
     field :errors, [String], null: false
 
-    # 3. 実行される処理
-    def resolve(id:, name:)
+    
+    def resolve(id:, name:, code: nil)
       headquarter = Headquarter.find(id)
       
-      if headquarter.update(name: name)
+     
+      if headquarter.update(name: name, code: code)
+        
+        
+        context[:controller].flash[:notice] = "Headquarter updated successfully."
+
         {
           headquarter: headquarter,
           errors: []

@@ -10,6 +10,12 @@ application.register("delete-modal", DeleteModalController)
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
+import HeadquarterCreateController from "./headquarter_create_controller"
+application.register("headquarter-create", HeadquarterCreateController)
+
+import HeadquarterUpdateController from "./headquarter_update_controller"
+application.register("headquarter-update", HeadquarterUpdateController)
+
 import HeadquartersController from "./headquarters_controller"
 application.register("headquarters", HeadquartersController)
 
@@ -18,3 +24,6 @@ application.register("hello", HelloController)
 
 import RadioSelectionController from "./radio_selection_controller"
 application.register("radio-selection", RadioSelectionController)
+
+import ReportController from "./report_controller"
+application.register("report", ReportController)

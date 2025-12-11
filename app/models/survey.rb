@@ -1,5 +1,7 @@
 class Survey < ApplicationRecord
   belongs_to :user
+  belongs_to :headquarter
+  belongs_to :department
   before_save :calculate_total_score
   
   private

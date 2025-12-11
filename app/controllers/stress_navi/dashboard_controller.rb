@@ -9,7 +9,6 @@ module StressNavi
       @alert_count = Survey.where(created_at: range).where("total_score > ?", 15).count
 
       @headquarters = Headquarter.includes(departments: { users: :surveys }).order(:id) 
-      #puts @headquarters1
     end
   end
 end

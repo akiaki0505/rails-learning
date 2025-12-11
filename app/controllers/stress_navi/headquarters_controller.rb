@@ -8,5 +8,9 @@ module StressNavi
     def new
       @headquarter = Headquarter.new
     end
+
+    def edit
+      @headquarter_id = params[:id]
+    end
   end
 end

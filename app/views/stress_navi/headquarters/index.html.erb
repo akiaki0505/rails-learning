@@ -1,4 +1,5 @@
-<% content_for(:title, 'Headquater List') %>
+<% content_for(:title, 'Headquarter List') %>
+
 <main class="flex-1 overflow-y-auto p-6 md:p-8 bg-gray-100" data-controller="headquarters">
 
     <% if flash[:notice] %>
@@ -12,7 +13,7 @@
      </div>
     <% end %>
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Headquater List</h1>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Headquarter List</h1>
 
     <div class="container mx-auto">
 
@@ -21,30 +22,82 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-                Add Headquater
+                Add Headquarter
             <% end %>
         </div>
 
-        <div data-headquarters-target="list" class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            <div data-headquarters-target="loading" class="col-span-full text-center py-10 text-gray-500 animate-pulse">
-                Loading data...
+        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 min-h-[500px]">
+            
+            <div data-headquarters-target="loading" class="text-center py-10 text-gray-500 animate-pulse">
+                Loading Organization Chart...
+            </div>
+
+            <div data-headquarters-target="list" class="hidden">
+                
+                <div class="relative z-10">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-sky-800 rounded-full flex items-center justify-center text-white shadow-md z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <path fill-rule="evenodd" d="M3 2.25a.75.75 0 01.75.75v.54l1.838-.46a9.75 9.75 0 016.725.738l.108.054a8.25 8.25 0 005.58.652l3.109-.732a.75.75 0 01.917.81 47.784 47.784 0 00.005 10.337.75.75 0 01-.574.812l-3.114.733a9.75 9.75 0 01-6.594-.158l-.108-.054a8.25 8.25 0 00-5.69-.625l-2.202.55V21a.75.75 0 01-1.5 0V3A.75.75 0 013 2.25z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <span class="ml-3 font-bold text-xl text-gray-800">Head Office</span>
+                    </div>
+                    <div class="absolute left-6 top-10 w-0.5 h-6 bg-gray-300"></div>
+                </div>
+
+                <div id="tree-root" class="ml-6 pl-8 pt-2 pb-4 space-y-0">
+                    </div>
             </div>
         </div>
-
+        
         <template data-headquarters-target="template">
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="js-code text-xs text-gray-400 font-mono mb-1"></p>
-                        <h3 class="js-name text-lg font-bold text-gray-800"></h3>
-                    </div>
+            <div class="relative group pb-6">
+                
+                <div class="absolute -left-8 top-0 bottom-0 w-0.5 bg-gray-300 group-last:bottom-auto group-last:h-5"></div>
+                <div class="absolute -left-8 top-5 w-8 h-0.5 bg-gray-300"></div>
+
+                <div class="cursor-pointer bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md hover:border-sky-300 transition flex justify-between items-center w-full md:w-2/3"
+                    data-action="click->headquarters#toggle">
                     
-                    <button class="text-gray-400 hover:text-sky-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                    <div class="flex items-center">
+                        <div class="bg-sky-50 text-sky-600 p-2 rounded-lg mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="js-name text-lg font-bold text-gray-800"></h3>
+                            <p class="js-code text-xs text-gray-400 font-mono"></p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <a href="#" class="js-edit-btn p-2 text-gray-400 hover:text-sky-600 hover:bg-sky-50 rounded-full transition" 
+                        onclick="event.stopPropagation()"
+                        title="Edit">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                            </svg>
+                        </a>
+
+                        <svg class="js-chevron w-5 h-5 text-gray-400 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
-                    </button>
+                    </div>
                 </div>
+
+                <div class="js-departments hidden ml-6 pl-8 pt-4 pb-2 space-y-3"></div>
+            </div>
+        </template>
+
+        <template data-headquarters-target="departmentTemplate">
+            <div class="relative flex items-center group">
+                <div class="js-dept-line absolute -left-8 top-0 w-0.5 border-l-2 border-dashed border-gray-300 h-full"></div>
+                
+                <div class="absolute -left-8 top-1/2 w-8 h-0.5 border-b-2 border-dashed border-gray-300"></div>
+                
+                <div class="js-dept-name bg-gray-50 border border-gray-200 px-4 py-2 rounded text-sm text-gray-700 w-full md:w-2/3 hover:bg-white transition"></div>
             </div>
         </template>
 

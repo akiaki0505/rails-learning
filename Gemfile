@@ -72,3 +72,6 @@ gem "view_component", "~> 4.0"
 
 gem 'graphql'
 gem 'graphiql-rails'
+
+gem 'faraday'
+gem 'faraday-retry'

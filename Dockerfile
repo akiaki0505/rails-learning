@@ -41,6 +41,9 @@ RUN apt-get update -qq && \
       curl \
       default-mysql-client \
       libvips \
+      build-essential \
+      git \
+      pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /usr/local/bundle /usr/local/bundle

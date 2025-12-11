@@ -3,7 +3,6 @@ module StressNavi
     layout 'survey/application'
     skip_before_action :require_login, only: [:new, :create]
     def new
-      # ログインフォーム表示
       #@BCrypt = BCrypt::Password.create("password123")
     end
 
