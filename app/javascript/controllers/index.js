@@ -7,6 +7,9 @@ import { application } from "./application"
 import DeleteModalController from "./delete_modal_controller"
 application.register("delete-modal", DeleteModalController)
 
+import DepartmentSelectController from "./department_select_controller"
+application.register("department-select", DepartmentSelectController)
+
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 

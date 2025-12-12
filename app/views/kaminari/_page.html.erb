@@ -1,0 +1,7 @@
+<% if page.current? %>
+  <span class="z-10 bg-sky-600 border-sky-600 text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md">
+    <%= page %>
+  </span>
+<% else %>
+  <%= link_to page, url, remote: remote, rel: page.rel, class: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md transition-colors" %>
+<% end %>

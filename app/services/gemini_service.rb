@@ -2,7 +2,6 @@ class GeminiService
   require 'faraday'
   require 'json'
 
-  # URLは先ほど確認した "gemini-flash-latest" のままにしています
   API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent"
 
   def self.call(prompt)

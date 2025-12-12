@@ -28,8 +28,8 @@ module StressNavi
       end
 
       avg_total = surveys.average(:total_score).to_f.round(1)
-      avg_q1    = surveys.average(:q1).to_f.round(1)          # 業務量
-      avg_q4    = surveys.average(:q4).to_f.round(1)          # 人間関係
+      avg_q1    = surveys.average(:q1).to_f.round(1) # 業務量
+      avg_q4    = surveys.average(:q4).to_f.round(1) # 人間関係
 
       prompt = <<~TEXT
         あなたはプロの組織コンサルタントです。

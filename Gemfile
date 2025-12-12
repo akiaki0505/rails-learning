@@ -75,3 +75,5 @@ gem 'graphiql-rails'
 
 gem 'faraday'
 gem 'faraday-retry'
+
+gem 'kaminari'

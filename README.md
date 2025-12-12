@@ -1,24 +1,36 @@
-# README
+# Stress Navi (ストレス分析ツール)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 📖 概要
+従業員のストレスチェックデータを収集・可視化し、**Google Gemini AI (LLM)** を用いて組織ごとの課題分析と改善策の提案を自動生成するWebアプリケーションです。
 
-Things you may want to cover:
+ストレスという目には見えないものをできるだけ可視化して健康的で文化的な組織の熟成を促進するために開発しました。
 
-* Ruby version
+## 主な機能
 
-* System dependencies
+### 1. ユーザー管理 & 組織構造
+- 本部 (Headquarter) > 部署 (Department) > ユーザー (User) の階層構造を管理。
+- **動的フォーム**: ユーザー登録時、選択した本部に紐づく部署のみを絞り込んで表示（Stimulus使用）。
 
-* Configuration
+### 2. 組織ストレスレベルAI分析 (Gemini API連携)
+- 組織（本部・部署）ごとのストレスチェック結果（総合スコア、業務量、人間関係）を集計。
+- 集計データを **Google Gemini 1.5 Flash** に送信し、産業医視点での分析レポートをリアルタイムで生成。
+- **Stimulus** を用いた非同期通信により、シームレスなUIを実現。
 
-* Database creation
+### 3. データエクスポート & 監査ログ
+- **CSVダウンロード**: 検索条件を維持したままユーザー一覧をCSV出力（Excel対応のためBOM付きUTF-8を採用）。
+- **監査ログ**: 「誰が・いつ・どのIPから」データをエクスポートしたかを専用ログファイルに記録。
 
-* Database initialization
+### 4. セキュリティ & エラーハンドリング
+- **環境変数管理**: APIキーやDBパスワードは `.env` で管理し、Dockerコンテナへ注入。
+- **ログ管理**: ログイン/ログアウト、登録処理の成功/失敗をログレベル（Info/Warn/Error）を分けて記録。
+- **例外処理**: 予期せぬエラー発生時は、システムログを残しつつユーザーフレンドリーなエラー画面を表示。
 
-* How to run the test suite
+## 🛠 使用技術
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+| カテゴリ | 技術スタック |
+| --- | --- |
+| **Backend** | Ruby 3.x, Ruby on Rails 7.x |
+| **Frontend** | TailwindCSS, Hotwire (Stimulus / Turbo) |
+| **Database** | MySQL 8.0 |
+| **Infrastructure** | Docker, Docker Compose |
+| **API** | Google Gemini API (Generative AI) |
