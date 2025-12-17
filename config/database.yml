@@ -53,6 +53,10 @@ test:
 #
 production:
   <<: *default
-  database: rails_learning_production
-  username: rails_learning
-  password: <%= ENV["RAILS_LEARNING_DATABASE_PASSWORD"] %>
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
