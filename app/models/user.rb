@@ -5,7 +5,8 @@ class User < ApplicationRecord
   has_many :surveys, dependent: :destroy
 
   validates :password, length: { minimum: 8 }, allow_nil: true
-  validates :name, :email, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true
+  validates :name, :department_id, presence: true
 
   has_secure_password
 

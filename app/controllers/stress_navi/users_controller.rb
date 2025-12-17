@@ -53,7 +53,7 @@ module StressNavi
       begin
         if @user.save
           USER_LOGGER.info("Operator ID #{current_user.id} \n User Create: Target ID #{@user.id}")
-          redirect_to new_stress_navi_user_path, notice: "User created successfully."
+          redirect_to stress_navi_users_path, notice: "User created successfully."
         else
           @headquarters = Headquarter.all
           @departments  = Department.all
