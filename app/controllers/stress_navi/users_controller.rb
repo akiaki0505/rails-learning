@@ -29,7 +29,7 @@ module StressNavi
       @user = User.find(params[:id])
 
       # 直近2週間(14日間)のデータを、古い順(グラフは左から右へ流れるため)に取得
-      # beginning_of_day をつけることで「2週間前の0時0分」から検索します
+      # beginning_of_day をつけることで「2週間前の0時0分」から検索
       range = 2.weeks.ago.beginning_of_day..Time.current
       @recent_surveys = @user.surveys.where(created_at: range).order(created_at: :asc)
 

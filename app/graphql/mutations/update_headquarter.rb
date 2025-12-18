@@ -3,14 +3,11 @@ module Mutations
     
     argument :id, ID, required: true
     argument :name, String, required: true
-    
     argument :code, String, required: false
-
     
     field :headquarter, Types::Objects::HeadquarterType, null: true
     field :errors, [String], null: false
 
-    
     def resolve(id:, name:, code: nil)
       headquarter = Headquarter.find(id)
       
