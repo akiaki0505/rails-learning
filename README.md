@@ -1,9 +1,9 @@
 # Stress Navi (ストレス分析ツール)
 
 ## 📖 概要
-従業員のストレスチェックデータを収集・可視化し、**Google Gemini AI (LLM)** を用いて組織ごとの課題分析と改善策の提案を自動生成するWebアプリケーションです。
+従業員のストレスチェックデータを収集・可視化し、**Google Gemini AI** を用いて組織ごとの課題分析と改善策の提案を自動生成するWebアプリケーションです。
 
-ストレスという目には見えないものをできるだけ可視化して健康的で文化的な組織の熟成を促進するために開発しました。
+ストレスという目には見えないものをできるだけ可視化して健康的で文化的な組織の醸成を促進するために開発しました。
 
 ## 主な機能
 
@@ -29,7 +29,7 @@
 
 | カテゴリ | 技術スタック |
 | --- | --- |
-| **Backend** | Ruby 3.x, Ruby on Rails 7.x |
+| **Backend** | Ruby 3.2.2, Ruby on Rails 7.1.5 |
 | **Frontend** | TailwindCSS, Hotwire (Stimulus / Turbo) |
 | **Database** | MySQL 8.0 |
 | **Infrastructure** | Docker, Docker Compose |
