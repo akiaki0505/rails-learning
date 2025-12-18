@@ -11,6 +11,13 @@ module StressNavi
 
     def create
       @survey = Survey.new(survey_params)
+      user = @survey.user
+      
+      if user
+        @survey.department = user.department
+        @survey.headquarter = user.department&.headquarter
+      end
+      
       if @survey.save
         redirect_to complete_stress_navi_surveys_path
       else

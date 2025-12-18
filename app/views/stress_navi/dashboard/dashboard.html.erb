@@ -38,6 +38,38 @@
         </span>
         Organization Weather Map
     </h2>
+
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
+        <div class="flex items-center mb-3">
+            <h3 class="text-sm font-bold text-gray-700">Weather Guide</h3>
+            <span class="ml-2 text-xs text-gray-400">各アイコンとストレススコアの目安</span>
+        </div>
+    
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            <% [:sunny, :partly_cloudy, :cloudy, :rainy, :stormy].each do |type| %>
+                <% style = weather_styles(type) %>
+                <div class="flex items-center space-x-3 p-2 rounded-lg <%= style[:bg] %> bg-opacity-30 border border-gray-100">
+                    <div class="<%= style[:text] %> w-8 h-8 flex-shrink-0">
+                        <%= weather_icon_svg(type) %>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-gray-700 leading-tight">
+                            <%= style[:label] %>
+                        </div>
+                        <p class="text-[10px] text-gray-500 leading-tight">
+                            <%= case type
+                                when :sunny then "5〜8点: 良好"
+                                when :partly_cloudy then "9〜12点: 安定"
+                                when :cloudy then "13〜15点: 注意"
+                                when :rainy then "16〜20点: 高負荷(警告)"
+                                when :stormy then "21点〜: 要対応(危険)"
+                            end %>
+                        </p>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
     
     <% if @headquarters.present? %>
     <div class="space-y-6">

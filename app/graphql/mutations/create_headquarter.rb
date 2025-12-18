@@ -13,8 +13,9 @@ module Mutations
       headquarter = Headquarter.new(name: name, code: code)
 
       if headquarter.save
-        { headquarter: headquarter, errors: [] }
         context[:controller].flash[:notice] = "Headquarter created successfully."
+        
+        { headquarter: headquarter, errors: [] }
       else
         { headquarter: nil, errors: headquarter.errors.full_messages }
       end

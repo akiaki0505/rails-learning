@@ -4,6 +4,16 @@
         <h1 class="text-2xl font-semibold">ストレスナビ - 週次ストレスチェック</h1>
         <p class="text-sm text-gray-500 mt-1">所要時間：1分程度。直感でイラストを選んでください。</p>
     </header>
+
+    <% if @survey.errors.any? %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <ul>
+            <% @survey.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+            <% end %>
+        </ul>
+    </div>
+    <% end %>
     
     <%= form_with model: @survey, url: stress_navi_surveys_path, local: true, class: "space-y-6", data: { turbo: false } do |f|%>
         <section class="question" data-q="1">
