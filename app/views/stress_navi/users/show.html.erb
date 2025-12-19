@@ -85,40 +85,30 @@
 
     <script>
     document.addEventListener("turbo:load", function() {
-        // キャンバス要素を取得
         const ctx = document.getElementById('scoreChart');
 
-        // すでにチャートがある場合は一度破棄する（画面遷移で重複描画されるのを防ぐため）
         if (window.myChart instanceof Chart) {
             window.myChart.destroy();
         }
 
-        // チャートの作成
         window.myChart = new Chart(ctx, {
             type: 'line', // 折れ線グラフ
             data: {
-                // Rubyの配列(@chart_labels)をJSON形式でJSに渡す
                 labels: <%= @chart_labels.to_json.html_safe %>, 
                 datasets: [
-                    // ▼ 1つ目: ボーダーライン (15点) ※こちらを先に書くと奥に表示されます
                     {
                         label: 'Threshold (15)',
-                        data: <%= @border_line.to_json %>, // [15, 15, 15...]
-                        
-                        // 目立つデザイン設定
-                        borderColor: 'rgba(255, 99, 132, 0.8)', // 赤色
-                        borderWidth: 3,             // 線を太く
-                        borderDash: [10, 5],        // 点線にする (10px線引いて5px空ける)
-                        pointRadius: 0,             // 丸い点(プロット)は表示しない
-                        fill: false,                // 塗りつぶしなし
-                        tension: 0                  // 直線
+                        data: <%= @border_line.to_json %>,
+                        borderColor: 'rgba(255, 99, 132, 0.8)',
+                        borderWidth: 3,
+                        borderDash: [10, 5],
+                        pointRadius: 0,
+                        fill: false,
+                        tension: 0
                     },
-                    // ▼ 2つ目: 実際のスコア (既存)
                     {
                         label: 'Total Score',
                         data: <%= @chart_data.to_json %>,
-                        
-                        // (既存のデザイン設定...)
                         borderColor: 'rgb(14, 165, 233)', 
                         backgroundColor: 'rgba(14, 165, 233, 0.1)',
                         borderWidth: 2,
@@ -132,31 +122,29 @@
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // 親要素の高さに合わせる
+                maintainAspectRatio: false, 
                 scales: {
                     y: {
-                        beginAtZero: true, // 0からスタートするか
-                        // max: 100,      // 必要なら最大値を固定
+                        beginAtZero: true, 
                         grid: {
-                            color: 'rgba(0, 0, 0, 0.05)' // グリッド線の色
+                            color: 'rgba(0, 0, 0, 0.05)'
                         }
                     },
                     x: {
                         grid: {
-                            display: false // 縦のグリッド線は消す
+                            display: false
                         }
                     }
                 },
                 plugins: {
                     legend: {
-                        display: false // 凡例(Total Scoreという文字)を消す
+                        display: false
                     }
                 }
             }
         });
     });
     
-    // 初回読み込み対策 (Turboを使わない場合やリロード時用)
     if (document.readyState === "complete" || document.readyState === "interactive") {
         document.dispatchEvent(new Event("turbo:load"));
     }
