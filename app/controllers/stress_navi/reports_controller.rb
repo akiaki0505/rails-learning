@@ -46,12 +46,16 @@ module StressNavi
       TEXT
 
       #Gemini API を呼び出す
-      result_text = GeminiService.call(prompt)
+      analysis_text = GeminiService.call(prompt)
+
+      renderer = Redcarpet::Render::HTML.new(hard_wrap: true)
+      markdown = Redcarpet::Markdown.new(renderer, tables: true, fenced_code_blocks: true)
+      analysis_html = markdown.render(analysis_text)
 
       render json: { 
         name: target_name,
         score: avg_total,
-        analysis: result_text 
+        analysis: analysis_html 
       }
     end
   end

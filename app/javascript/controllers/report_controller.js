@@ -52,6 +52,6 @@ export default class extends Controller {
             this.scoreTarget.className = "text-xl font-bold text-green-600"
         }
         
-        this.contentTarget.textContent = data.analysis
+        this.contentTarget.innerHTML = data.analysis
     }
 }
