@@ -21,40 +21,85 @@ module StressNavi
 
     def import_csv
       file = params[:file]
-      
+      errors = []
+
+      # 1. 形式チェック
       if file.nil? || File.extname(file.original_filename) != ".csv"
-        return redirect_to csv_upload_stress_navi_employees_path, alert: "Please select a CSV file."
+        return render json: { alert: "Please select a CSV file." }, status: :unprocessable_entity
       end
-      
+
+      # 2. レコード数チェック (5万件以下)
+      line_count = File.foreach(file.path).count
+      if line_count > 50001
+        return render json: { 
+          alert: "CSV contains too many records. Please ensure it has 50,000 records or fewer (Current: #{line_count - 1} records)." 
+          }, status: :unprocessable_entity
+      end
+
       begin
+        # 3. ヘッダーチェック
         expected_headers = ["社員番号", "氏名", "メールアドレス", "所属部署名"]
         actual_headers = CSV.open(file.path, encoding: 'BOM|UTF-8:UTF-8', &:readline)&.map(&:strip)
         
         if actual_headers.nil?
-          return redirect_to csv_upload_stress_navi_employees_path, alert: "CSV file is empty."
+          return render json: { alert: "The CSV file is empty." }, status: :unprocessable_entity
         end
-        
+
         missing = expected_headers - actual_headers
         extra = actual_headers - expected_headers
-        
+
         if missing.any? || extra.any?
-          msg = []
-          msg << "Missing: #{missing.join(', ')}" if missing.any?
-          msg << "Unexpected: #{extra.join(', ')}" if extra.any?
-          # ここで return されるので、ジョブは実行されません
-          return redirect_to csv_upload_stress_navi_employees_path, alert: "Invalid Header. #{msg.join(' / ')}"
-        end
-        
-        # 3. 非同期処理への準備
-        temp_path = Rails.root.join('tmp', "import_#{Time.current.to_i}.csv")
-        FileUtils.cp(file.path, temp_path)
-        
-        ImportEmployeesJob.perform_later(temp_path.to_s)
-        
-        redirect_to stress_navi_employees_path, notice: "Import started! It will be processed in the background."
+          header_errors = []
+          header_errors << "Missing columns: #{missing.join(', ')}" if missing.any?
+          header_errors << "Unexpected columns: #{extra.join(', ')}" if extra.any?
       
+          return render json: { 
+            alert: "Invalid CSV header.", 
+            errors: header_errors 
+          }, status: :unprocessable_entity
+        end
+
+        # 4. データバリデーション
+        errors = []
+        employee_numbers_in_csv = Set.new
+        valid_attributes = []
+
+        CSV.foreach(file.path, headers: true, encoding: 'BOM|UTF-8:UTF-8') do |row|
+          employee = Employee.new(
+            employee_number: row["社員番号"],
+            name:            row["氏名"],
+            email:           row["メールアドレス"],
+            department_name: row["所属部署名"]
+          )
+
+          # 重複チェック等
+          emp_num = row["社員番号"]
+          errors << "Row #{$.}: Duplicate number in CSV." if employee_numbers_in_csv.include?(emp_num)
+          employee_numbers_in_csv.add(emp_num)
+
+          unless employee.valid?
+            employee.errors.full_messages.each { |msg| errors << "Row #{$.}: #{msg}" }
+          end
+
+          valid_attributes << {
+            employee_number: row["社員番号"], name: row["氏名"],
+            email: row["メールアドレス"], department_name: row["所属部署名"],
+            created_at: Time.current, updated_at: Time.current
+          } if errors.empty?
+
+          break if errors.size >= 100
+        end
+
+        # 5. レスポンスの返却
+        if errors.any?
+          render json: { errors: errors }, status: :unprocessable_entity
+        else
+          Employee.insert_all(valid_attributes) if valid_attributes.any?
+          render json: { notice: "Successfully imported #{valid_attributes.size} employees!" }
+        end
+
       rescue => e
-        redirect_to csv_upload_stress_navi_employees_path, alert: "Error: #{e.message}"
+        render json: { alert: "Unexpected error: #{e.message}" }, status: :internal_server_error
       end
     end
 
