@@ -1,0 +1,80 @@
+<% content_for(:title, 'Employees List') %>
+<main class="flex-1 overflow-y-auto p-6 md:p-8 bg-gray-100" data-controller="delete-modal">
+
+    <% if flash[:notice] %>
+    <div data-controller="flash" class="fixed top-0 left-0 w-full z-50 flex justify-center pointer-events-none transition-all duration-500 ease-out transform -translate-y-full opacity-0">
+        <div class="mt-6 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center pointer-events-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="font-medium"><%= flash[:notice] %></span>
+        </div>
+     </div>
+    <% end %>
+
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Employees List</h1>
+
+    <div class="container mx-auto">
+
+        <div class="flex justify-between items-center mb-6">
+
+            <%= link_to csv_upload_stress_navi_employees_path, class: "bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium py-2 px-4 rounded-lg shadow transition-colors flex items-center" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Add Employee
+            <% end %>
+        </div>
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+            <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                <tr class="bg-gray-50 border-b border-gray-100 text-xs uppercase text-gray-500 font-semibold tracking-wider">
+                    <th class="px-6 py-4">ID</th>
+                    <th class="px-6 py-4">Employee number</th>
+                    <th class="px-6 py-4">Name</th>
+                    <th class="px-6 py-4">Email Address</th>
+                    <th class="px-6 py-4">Created Date</th>
+                </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+                <% @employees.each do |employee| %>
+                    <tr 
+                        class="hover:bg-gray-50 transition-colors duration-150 cursor-pointer group">
+                    
+                        <td class="px-6 py-4 text-sm text-gray-500 group-hover:text-gray-700">
+                            #<%= employee.id %>
+                        </td>
+
+                        <td class="px-6 py-4 text-sm text-gray-500 group-hover:text-gray-700 font-medium">
+                            <%= employee.employee_number %>
+                        </td>
+
+                        <td class="px-6 py-4 text-sm text-gray-500 group-hover:text-gray-700 font-medium">
+                            <%= employee.name %>
+                        </td>
+
+                        <td class="px-6 py-4 text-sm text-gray-500 group-hover:text-gray-700 font-medium">
+                            <%= employee.email %>
+                        </td>
+
+                        <td class="px-6 py-4 text-sm text-gray-500 group-hover:text-gray-700">
+                            <%= employee.created_at.strftime('%Y/%m/%d %H:%M') %>
+                        </td>
+
+                    </tr>
+                <% end %>
+                </tbody>
+            </table>
+
+            <% if @employees.empty? %>
+                <div class="p-8 text-center text-gray-500">
+                    No employee found.
+                </div>
+            <% end %>
+            </div>
+        </div>
+    </div>
+
+</main>
