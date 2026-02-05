@@ -33,7 +33,7 @@ module StressNavi
       if line_count > 50001
         return render json: { 
           alert: "CSV contains too many records. Please ensure it has 50,000 records or fewer (Current: #{line_count - 1} records)." 
-          }, status: :unprocessable_entity
+        }, status: :unprocessable_entity
       end
 
       begin
@@ -60,11 +60,11 @@ module StressNavi
         end
 
         # 4. データバリデーション
-        errors = []
         employee_numbers_in_csv = Set.new
         valid_attributes = []
 
         CSV.foreach(file.path, headers: true, encoding: 'BOM|UTF-8:UTF-8') do |row|
+
           employee = Employee.new(
             employee_number: row["社員番号"],
             name:            row["氏名"],
@@ -72,33 +72,46 @@ module StressNavi
             department_name: row["所属部署名"]
           )
 
-          # 重複チェック等
+          # 重複チェック
           emp_num = row["社員番号"]
-          errors << "Row #{$.}: Duplicate number in CSV." if employee_numbers_in_csv.include?(emp_num)
+          if employee_numbers_in_csv.include?(emp_num)
+            errors << "Row #{$.}: Duplicate number in CSV."
+          end
           employee_numbers_in_csv.add(emp_num)
 
           unless employee.valid?
             employee.errors.full_messages.each { |msg| errors << "Row #{$.}: #{msg}" }
           end
 
-          valid_attributes << {
-            employee_number: row["社員番号"], name: row["氏名"],
-            email: row["メールアドレス"], department_name: row["所属部署名"],
-            created_at: Time.current, updated_at: Time.current
-          } if errors.empty?
+          if errors.empty?
+            valid_attributes << {
+              employee_number: row["社員番号"],
+              name:            row["氏名"],
+              email:           row["メールアドレス"],
+              department_name: row["所属部署名"],
+              created_at:      Time.current,
+              updated_at:      Time.current
+            }
+          end
 
+          # 大量エラー時は中断
           break if errors.size >= 100
         end
 
-        # 5. レスポンスの返却
+        # 5. レスポンスの返却（ここをスッキリさせました！）
         if errors.any?
-          render json: { errors: errors }, status: :unprocessable_entity
+          render json: { 
+            alert: "Invalid CSV data found:", 
+            errors: errors 
+          }, status: :unprocessable_entity
         else
+          # エラーがなければ一括登録
           Employee.insert_all(valid_attributes) if valid_attributes.any?
           render json: { notice: "Successfully imported #{valid_attributes.size} employees!" }
         end
 
       rescue => e
+        # 予期せぬエラーの保護
         render json: { alert: "Unexpected error: #{e.message}" }, status: :internal_server_error
       end
     end
