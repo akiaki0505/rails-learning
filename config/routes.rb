@@ -38,6 +38,8 @@ Rails.application.routes.draw do
       collection do
         get :csv_upload
         post :import_csv
+        get  :mapping
+        post :finalize_import
         get :download_format
       end
     end
