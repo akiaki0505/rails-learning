@@ -62,14 +62,19 @@ module StressNavi
       mapping = params[:mapping]
       file_path = Rails.root.join('tmp', "import_#{file_id}.csv")
 
+      # 安全のためファイル存在確認
+      return render json: { alert: "Session expired. Please upload again." }, status: :unprocessable_entity unless File.exist?(file_path)
+
       service = EmployeeImportService.new(File.open(file_path))
       
       if service.import_with_mapping(mapping)
         # 成功したら一時ファイルを削除
         FileUtils.rm(file_path) if File.exist?(file_path)
-        redirect_to employees_path, notice: "Successfully imported employees!"
+        
+        # JavaScript側にリダイレクト先を教える
+        render json: { location: stress_navi_employees_path, notice: "Successfully imported employees!" }
       else
-        redirect_to mapping_stress_navi_employees_path(file_id: file_id), alert: "Import failed."
+        render json: { alert: "Import failed: #{service.errors.join(', ')}" }, status: :unprocessable_entity
       end
     end
 

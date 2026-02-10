@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import CsvImportFinalizeController from "./csv_import_finalize_controller"
+application.register("csv-import-finalize", CsvImportFinalizeController)
+
 import CsvUploadController from "./csv_upload_controller"
 application.register("csv-upload", CsvUploadController)
 
