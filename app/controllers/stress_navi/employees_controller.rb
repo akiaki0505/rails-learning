@@ -4,7 +4,7 @@ module StressNavi
   class EmployeesController < ApplicationController
     layout 'stressNavi/admin/application'
     def index
-      @employees = Employee.order(id: :desc)
+      @employees = Employee.order(id: :desc).limit(50)
     end
 
     def download_format
@@ -24,17 +24,13 @@ module StressNavi
       unique_depts = service.prepare
 
       if unique_depts
-        # ファイルを一時保存
         file_id = SecureRandom.uuid
         temp_path = Rails.root.join('tmp', "import_#{file_id}.csv")
         FileUtils.cp(params[:file].path, temp_path)
 
-        # 成功: マッピング画面へ遷移 (同期的な動き)
         redirect_to mapping_stress_navi_employees_path(file_id: file_id)
       else
-        # 失敗: 同じ画面を再表示し、エラーを渡す (同期的な動き)
         @csv_errors = service.errors
-        # flash.now[:alert] = "Invalid CSV data found:" # 必要なら追加
         render :csv_upload, status: :unprocessable_entity
       end
     end
@@ -43,17 +39,13 @@ module StressNavi
       @file_id = params[:file_id]
       file_path = Rails.root.join('tmp', "import_#{@file_id}.csv")
 
-      # 安全のためファイル存在確認
       redirect_to employees_path, alert: "Session expired." unless File.exist?(file_path)
 
-      # CSVから部署名を再抽出（サービスを使ってもOK）
-      @unique_depts = []
-      CSV.foreach(file_path, headers: true, encoding: 'BOM|UTF-8:UTF-8') do |row|
-        @unique_depts << row["所属部署名"] unless row["所属部署名"].blank?
-      end
-      @unique_depts = @unique_depts.uniq
+      service = EmployeeImportService.new(File.open(file_path))
+      @unique_depts = service.prepare 
+      
+      redirect_to employees_path, alert: "Invalid file content." unless @unique_depts
 
-      # システム側の部署一覧
       @system_depts = Department.order(:name)
     end
 
@@ -62,20 +54,29 @@ module StressNavi
       mapping = params[:mapping]
       file_path = Rails.root.join('tmp', "import_#{file_id}.csv")
 
-      # 安全のためファイル存在確認
-      return render json: { alert: "Session expired. Please upload again." }, status: :unprocessable_entity unless File.exist?(file_path)
+      return render json: { alert: "Session expired." }, status: :unprocessable_entity unless File.exist?(file_path)
 
       service = EmployeeImportService.new(File.open(file_path))
       
       if service.import_with_mapping(mapping)
-        # 成功したら一時ファイルを削除
         FileUtils.rm(file_path) if File.exist?(file_path)
         
-        # JavaScript側にリダイレクト先を教える
-        render json: { location: stress_navi_employees_path, notice: "Successfully imported employees!" }
+        render json: { 
+          location: stress_navi_employees_path, 
+          notice: "Successfully imported employees!" 
+        }
       else
-        render json: { alert: "Import failed: #{service.errors.join(', ')}" }, status: :unprocessable_entity
+        render json: { 
+          alert: "Import failed:", 
+          errors: service.errors 
+        }, status: :unprocessable_entity
       end
+    end
+
+    def destroy_all
+      Employee.delete_all 
+      
+      redirect_to stress_navi_employees_path, notice: "All employee records have been successfully deleted."
     end
 
     private

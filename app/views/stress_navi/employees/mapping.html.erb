@@ -1,11 +1,23 @@
 <% content_for(:title, 'Department Mapping') %>
 
-<%# Stimulusコントローラーをマッピング専用に分けるか、共通のものを使います %>
 <main class="flex-1 overflow-y-auto p-6 md:p-8 bg-gray-100 relative" data-controller="csv-import-finalize">
   <div class="max-w-4xl mx-auto">
     <h1 class="text-2xl font-bold text-gray-800 mb-6">Department Mapping</h1>
 
-    <%# --- ローディング画面（初期は hidden） --- %>
+    <div data-csv-import-finalize-target="results" class="hidden mb-6">
+      <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-md shadow-sm">
+        <div class="flex">
+          <div class="ml-3">
+            <h3 class="text-sm font-bold text-red-800" data-csv-import-finalize-target="message"></h3>
+            <div class="mt-2 text-sm text-red-700 max-h-60 overflow-y-auto">
+              <ul class="list-disc pl-5 space-y-1" data-csv-import-finalize-target="errorList">
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div data-csv-import-finalize-target="loading" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white p-8 rounded-xl shadow-2xl flex flex-col items-center">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600 mb-4"></div>
@@ -15,7 +27,6 @@
     </div>
 
     <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
-      <%# local: false (または指定なし) にして、Stimulusで送信をコントロールします %>
       <%= form_with url: finalize_import_stress_navi_employees_path, 
                     method: :post, 
                     local: false, 

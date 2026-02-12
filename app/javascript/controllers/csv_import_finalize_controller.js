@@ -1,11 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["form", "loading"]
+  static targets = ["form", "loading", "results", "message", "errorList"]
 
   async submit(event) {
     event.preventDefault()
 
+    this.resultsTarget.classList.add("hidden")
     this.loadingTarget.classList.remove("hidden")
 
     const formData = new FormData(this.formTarget)
@@ -23,16 +24,31 @@ export default class extends Controller {
       const data = await response.json()
 
       if (response.ok) {
-        // 成功したら一覧画面へ（サーバーからリダイレクト先URLをもらう）
         window.location.href = data.location
       } else {
-        alert(data.alert || "An error occurred during import.")
         this.loadingTarget.classList.add("hidden")
+        this.showErrors(data)
       }
     } catch (error) {
       console.error(error)
-      alert("A network error occurred.")
       this.loadingTarget.classList.add("hidden")
+      this.showErrors({ alert: "A network error occurred." })
     }
+  }
+
+  showErrors(data) {
+    this.messageTarget.innerText = data.alert || "Import failed:"
+    this.errorListTarget.innerHTML = ""
+
+    if (data.errors) {
+      data.errors.forEach(err => {
+        const li = document.createElement("li")
+        li.innerText = err
+        this.errorListTarget.appendChild(li)
+      })
+    }
+
+    this.resultsTarget.classList.remove("hidden")
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }

@@ -41,6 +41,7 @@ Rails.application.routes.draw do
         get  :mapping
         post :finalize_import
         get :download_format
+        delete :destroy_all
       end
     end
     get "login", to: "sessions#new"
