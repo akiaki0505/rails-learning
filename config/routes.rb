@@ -38,7 +38,10 @@ Rails.application.routes.draw do
       collection do
         get :csv_upload
         post :import_csv
+        get  :mapping
+        post :finalize_import
         get :download_format
+        delete :destroy_all
       end
     end
     get "login", to: "sessions#new"
